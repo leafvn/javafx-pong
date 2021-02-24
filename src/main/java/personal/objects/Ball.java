@@ -1,9 +1,11 @@
 package personal.objects;
 
 
+import javafx.beans.binding.Bindings;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.text.Text;
 import personal.Game;
 
 import java.util.Random;
@@ -12,9 +14,9 @@ import java.util.logging.Logger;
 
 public class Ball extends Pane {
     private static final Logger logger = Logger.getLogger(Ball.class.getName());
-    private static final double ONE =1;
-    private static final double TWO =2;
-    private static final double THREE =3;
+    private static final double ONE =1.9;
+    private static final double TWO =2.9;
+    private static final double THREE =3.9;
     private final double radius = 10;
     private double x = Game.WIDTH/2;
     private double y = Game.HEIGHT/2;
@@ -27,14 +29,14 @@ public class Ball extends Pane {
        circle = new Circle(radius, Color.WHITE);
        circle.setCenterY(x);
        circle.setCenterY(y);
-       isLeft = turnLeft();
+
        // isLeft = true;
-       randomDirection();
+       randomSpeed();
        getChildren().add(circle);
 
     }
 
-    private void checkPaddle(Paddle left,Paddle right){
+    public void checkPaddle(Paddle left, Paddle right){
          if(x<left.getRX()+2*left.getWIDTH()
                  &&y<left.getRY()+left.getHEIGHT()/3
                  &&y>left.getRY()-left.getHEIGHT()/1.5){
@@ -48,7 +50,8 @@ public class Ball extends Pane {
             // reverseY();
          }
     }
-    public void move(Paddle leftPaddle,Paddle rightPaddle){
+    public void move(){
+
         circle.setCenterX(x);
         circle.setCenterY(y);
         if(isLeft){
@@ -57,10 +60,7 @@ public class Ball extends Pane {
         else{
             goRight();
         }
-        checkCollision();
-        checkPaddle(leftPaddle,rightPaddle);
        //  logger.info(circle.getCenterX()+" "+circle.getCenterY());
-
     }
     private void goLeft(){
         x +=xSpeed;
@@ -80,30 +80,38 @@ public class Ball extends Pane {
         logger.info("speed y: "+ySpeed);
         return ySpeed *=-1.02;
     }
-    private void checkCollision(){
-        if(x <0 ||x>Game.WIDTH){
+    private void reset(){
             x = Game.WIDTH/2;
-        }
+            y = Game.HEIGHT/2;
+    }
+    public void checkCollision(){
         if(y <0 ||y>Game.HEIGHT){
            reverseY();
         }
     }
-    private void randomDirection(){
-        int rdNum = ThreadLocalRandom.current().nextInt(0,12);
+    public void checkScore(Player left, Player right, Text lText, Text rText){
+        if(x <0 ){
+            right.setRScore(right.getRScore()+1);
+            rText.textProperty().bind(Bindings.createStringBinding(()->(""+right.getRScore())));
+            isLeft = turnLeft();
+            reset();
+        }
+        if(x>Game.WIDTH){
+            left.setLScore(left.getLScore()+1);
+            lText.textProperty().bind(Bindings.createStringBinding(()->(""+left.getLScore())));
+            isLeft = turnLeft();
+            reset();
+        }
+    }
+    private void randomSpeed(){
+        int rdNum = ThreadLocalRandom.current().nextInt(0,4);
         logger.info("number "+ rdNum);
         switch (rdNum){
-            case 0:xSpeed=-ONE;ySpeed=-TWO;
-            case 1:xSpeed=ONE;ySpeed=-THREE;
-            case 2:xSpeed=-ONE;ySpeed=TWO;
-            case 3:xSpeed=ONE;ySpeed=-THREE;
-            case 4:xSpeed=TWO;ySpeed=ONE;
-            case 5:xSpeed=-TWO;ySpeed=-ONE;
-            case 6:xSpeed=TWO;ySpeed=THREE;
-            case 7:xSpeed=-TWO;ySpeed=-THREE;
-            case 8:xSpeed=THREE;ySpeed=ONE;
-            case 9:xSpeed=-THREE;ySpeed=-TWO;
-            case 10:xSpeed=THREE;ySpeed=TWO;
-            case 11:xSpeed=-THREE;ySpeed=THREE;
+            case 0:xSpeed=-TWO;ySpeed=-TWO;
+            case 1:xSpeed=-THREE;ySpeed=-THREE;
+            case 2:xSpeed=THREE;ySpeed=THREE;
+            case 3:xSpeed=-TWO;ySpeed=TWO;
+
         }
     }
     private boolean turnLeft(){

@@ -36,7 +36,7 @@ public class Paddle extends Pane {
             rectangle.setY(rectangle.getY()+dy);
            // logger.info("y: "+rectangle.getY());
             logger.info("bound x: "+rectangle.getBoundsInParent().getCenterX()
-                    +" bound y: "+rectangle.getBoundsInParent().getCenterY());
+                           +" bound y: "+rectangle.getBoundsInParent().getCenterY());
         }
     }
 
@@ -45,7 +45,7 @@ public class Paddle extends Pane {
             rectangle.setY(rectangle.getY()-dy);
           //  logger.info("y: "+rectangle.getY());
             logger.info("bound x: "+rectangle.getBoundsInParent().getCenterX()
-                    +" bound y: "+rectangle.getBoundsInParent().getCenterY());
+                            +" bound y: "+rectangle.getBoundsInParent().getCenterY());
         }
     }
 
