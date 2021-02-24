@@ -28,11 +28,27 @@ public class Ball extends Pane {
        circle.setCenterY(x);
        circle.setCenterY(y);
        isLeft = turnLeft();
+       // isLeft = true;
        randomDirection();
        getChildren().add(circle);
 
     }
-    public void move(){
+
+    private void checkPaddle(Paddle left,Paddle right){
+         if(x<left.getRX()+2*left.getWIDTH()
+                 &&y<left.getRY()+left.getHEIGHT()/3
+                 &&y>left.getRY()-left.getHEIGHT()/1.5){
+             reverseX();
+            // reverseY();
+         }
+         if(x>right.getRX()-2*right.getWIDTH()
+                 &&y<right.getRY()+right.getHEIGHT()/3
+                 &&y>right.getRY()-right.getHEIGHT()/1.5){
+             reverseX();
+            // reverseY();
+         }
+    }
+    public void move(Paddle leftPaddle,Paddle rightPaddle){
         circle.setCenterX(x);
         circle.setCenterY(y);
         if(isLeft){
@@ -42,7 +58,8 @@ public class Ball extends Pane {
             goRight();
         }
         checkCollision();
-        // logger.info(circle.getCenterX()+" "+circle.getCenterY());
+        checkPaddle(leftPaddle,rightPaddle);
+       //  logger.info(circle.getCenterX()+" "+circle.getCenterY());
 
     }
     private void goLeft(){
@@ -54,16 +71,25 @@ public class Ball extends Pane {
         x -=xSpeed;
         y -=ySpeed;
     }
+    private double reverseX(){
+        logger.info("speed x: "+xSpeed);
+        return xSpeed *=-1.02;
+
+    }
+    private double reverseY(){
+        logger.info("speed y: "+ySpeed);
+        return ySpeed *=-1.02;
+    }
     private void checkCollision(){
         if(x <0 ||x>Game.WIDTH){
             x = Game.WIDTH/2;
         }
         if(y <0 ||y>Game.HEIGHT){
-            ySpeed *=-1;
+           reverseY();
         }
     }
     private void randomDirection(){
-        int rdNum = ThreadLocalRandom.current().nextInt(0,11);
+        int rdNum = ThreadLocalRandom.current().nextInt(0,12);
         logger.info("number "+ rdNum);
         switch (rdNum){
             case 0:xSpeed=-ONE;ySpeed=-TWO;

@@ -16,16 +16,17 @@ import java.util.logging.Logger;
 
 
 /**
- * JavaFX App
+ * 23.2.2021 My very first game , first project as well
  */
 public class Game extends Application {
     private static final Logger logger = Logger.getLogger(Game.class.getName());
     public static final double WIDTH =600;
     public static final double HEIGHT=300;
     private final double FPS = 20;
-    private Ball ball;
-    private Paddle left;
     private Paddle right;
+    private Paddle left;
+    private Ball ball;
+
     @Override
     public void start(Stage stage) {
         Pane root = new Pane();
@@ -34,7 +35,7 @@ public class Game extends Application {
         left = new Paddle(true);
         right= new Paddle(false);
         move(scene,left,right);
-        Timeline animation = new Timeline(new KeyFrame(Duration.millis(FPS),e-> ball.move()));
+        Timeline animation = new Timeline(new KeyFrame(Duration.millis(FPS),e-> ball.move(left,right)));
         animation.setCycleCount(Animation.INDEFINITE);
         animation.setAutoReverse(true);
         animation.play();
@@ -42,8 +43,9 @@ public class Game extends Application {
         stage.setScene(scene);
         stage.setTitle("Pong");
         stage.setResizable(false);
-        scene.setFill(Color.BLACK);
         stage.show();
+        scene.setFill(Color.BLACK);
+
     }
     private void move(Scene scene, Paddle left, Paddle right){
         scene.setOnKeyPressed(keyEvent -> {
@@ -59,6 +61,7 @@ public class Game extends Application {
         );
 
     }
+
     public static void main(String[] args) {
         launch();
     }
