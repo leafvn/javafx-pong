@@ -22,7 +22,7 @@ public class Game extends Application {
     private static final Logger logger = Logger.getLogger(Game.class.getName());
     public static final double WIDTH =600;
     public static final double HEIGHT=300;
-    private final double FPS = 16.7;
+    private final double FPS = 20;
     private Ball ball;
     private Paddle left;
     private Paddle right;

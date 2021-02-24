@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import personal.Game;
 
+import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.logging.Logger;
 
@@ -20,10 +21,13 @@ public class Ball extends Pane {
     private double xSpeed;
     private double ySpeed;
     private Circle circle;
+    private boolean isLeft;
+
     public Ball(){
        circle = new Circle(radius, Color.WHITE);
        circle.setCenterY(x);
        circle.setCenterY(y);
+       isLeft = turnLeft();
        randomDirection();
        getChildren().add(circle);
 
@@ -31,15 +35,24 @@ public class Ball extends Pane {
     public void move(){
         circle.setCenterX(x);
         circle.setCenterY(y);
-        update();
+        if(isLeft){
+            goLeft();
+        }
+        else{
+            goRight();
+        }
         checkCollision();
+        // logger.info(circle.getCenterX()+" "+circle.getCenterY());
 
     }
-    private void update(){
+    private void goLeft(){
+        x +=xSpeed;
+        y +=ySpeed;
 
-       x +=xSpeed;
-       y +=ySpeed;
-      // logger.info(circle.getCenterX()+" "+circle.getCenterY());
+    }
+    private void goRight(){
+        x -=xSpeed;
+        y -=ySpeed;
     }
     private void checkCollision(){
         if(x <0 ||x>Game.WIDTH){
@@ -66,5 +79,9 @@ public class Ball extends Pane {
             case 10:xSpeed=THREE;ySpeed=TWO;
             case 11:xSpeed=-THREE;ySpeed=THREE;
         }
+    }
+    private boolean turnLeft(){
+        Random random = new Random();
+        return random.nextBoolean();
     }
 }
