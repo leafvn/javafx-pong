@@ -81,7 +81,8 @@ public class Ball extends Pane {
         }
     }
     private boolean turnLeft(){
-        Random random = new Random();
-        return random.nextBoolean();
+      //  Random random = new Random();
+        return  new Random().nextBoolean();
+       // return random.nextBoolean();
     }
 }
