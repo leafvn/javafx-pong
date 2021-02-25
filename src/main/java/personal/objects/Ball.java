@@ -14,7 +14,7 @@ import java.util.logging.Logger;
 
 public class Ball extends Pane {
     private static final Logger logger = Logger.getLogger(Ball.class.getName());
-    private static final double ONE =1.9;
+    //private static final double ONE =1.9;
     private static final double TWO =2.9;
     private static final double THREE =3.9;
     private final double radius = 10;
@@ -71,14 +71,14 @@ public class Ball extends Pane {
         x -=xSpeed;
         y -=ySpeed;
     }
-    private double reverseX(){
-        logger.info("speed x: "+xSpeed);
-        return xSpeed *=-1.02;
+    private void reverseX(){
+       // logger.info("speed x: "+xSpeed);
+         xSpeed *=-1.02;
 
     }
-    private double reverseY(){
-        logger.info("speed y: "+ySpeed);
-        return ySpeed *=-1.02;
+    private void reverseY(){
+      //  logger.info("speed y: "+ySpeed);
+         ySpeed *=-1.02;
     }
     private void reset(){
             x = Game.WIDTH/2;

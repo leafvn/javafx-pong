@@ -4,11 +4,7 @@ import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -19,21 +15,23 @@ import personal.objects.Ball;
 import personal.objects.Paddle;
 import personal.objects.Player;
 
+
 import java.util.logging.Logger;
 
 
 /**
- * 23.2.2021 My very first game , first project as well
+ * 20.2.2021 My very first game , first project as well
  */
 public class Game extends Application {
     private static final Logger logger = Logger.getLogger(Game.class.getName());
     public static final double WIDTH =600;
     public static final double HEIGHT=300;
     private final double FPS = 20;
-    private Text leftText;
-    private Text rightText;
+    private Timeline animation;
     private Player playerL;
     private Player playerR;
+    private Text rightText;
+    private Text leftText;
     private Paddle right;
     private Paddle left;
     private Ball ball;
@@ -59,16 +57,22 @@ public class Game extends Application {
         rightText.setFont(Font.font(25));
 
         move(scene,left,right);
-        Timeline animation =
-                new Timeline(new KeyFrame(Duration.millis(FPS),e-> {
-                    ball.move();
-                    ball.checkScore(playerL, playerR,leftText,rightText);
-                    ball.checkPaddle(left, right);
-                    ball.checkCollision();
-                }));
+
+        animation = new Timeline();
         animation.setCycleCount(Animation.INDEFINITE);
         animation.setAutoReverse(true);
+        animation.getKeyFrames().add(new KeyFrame(Duration.millis(FPS),e-> {
+
+            ball.move();
+            ball.checkScore(playerL, playerR,leftText,rightText);
+            ball.checkPaddle(left, right);
+            ball.checkCollision();
+            if(limit()){
+                animation.stop();
+            }
+        }));
         animation.play();
+
         root.getChildren().addAll(ball,left,right,leftText,rightText);
         stage.setScene(scene);
         stage.setTitle("Pong");
@@ -90,6 +94,17 @@ public class Game extends Application {
                 }
         );
 
+    }
+
+    private boolean limit(){
+        if(playerL.getLScore()>2){
+            //System.out.println("player 2 win");
+            return true;
+        }
+        //System.out.println("player 1 win");
+        return playerR.getRScore() > 2;
+        //logger.info("score : "+playerL.getLScore());
+        //logger.info("score : "+playerR.getRScore());
     }
 
     public static void main(String[] args) {

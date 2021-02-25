@@ -35,8 +35,8 @@ public class Paddle extends Pane {
         if(rectangle.getY()+HEIGHT<=Game.HEIGHT/2){
             rectangle.setY(rectangle.getY()+dy);
            // logger.info("y: "+rectangle.getY());
-            logger.info("bound x: "+rectangle.getBoundsInParent().getCenterX()
-                           +" bound y: "+rectangle.getBoundsInParent().getCenterY());
+           // logger.info("bound x: "+rectangle.getBoundsInParent().getCenterX()
+           //                +" bound y: "+rectangle.getBoundsInParent().getCenterY());
         }
     }
 
@@ -44,8 +44,8 @@ public class Paddle extends Pane {
         if(rectangle.getY()>=-Game.HEIGHT/2){
             rectangle.setY(rectangle.getY()-dy);
           //  logger.info("y: "+rectangle.getY());
-            logger.info("bound x: "+rectangle.getBoundsInParent().getCenterX()
-                            +" bound y: "+rectangle.getBoundsInParent().getCenterY());
+          //  logger.info("bound x: "+rectangle.getBoundsInParent().getCenterX()
+          //                  +" bound y: "+rectangle.getBoundsInParent().getCenterY());
         }
     }
 

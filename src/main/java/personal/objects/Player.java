@@ -2,8 +2,10 @@ package personal.objects;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.scene.layout.Pane;
 
-public class Player {
+
+public class Player  {
 
     private IntegerProperty lScore = new SimpleIntegerProperty(0);
     private IntegerProperty rScore= new SimpleIntegerProperty(0);
